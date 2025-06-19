@@ -11,36 +11,36 @@
             box-sizing: border-box;
         }
         
-        body {
+        html, body {
             background: transparent !important;
+            background-color: transparent !important;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             overflow: hidden;
             height: 100vh;
             width: 100vw;
             color: white;
             cursor: default;
+            outline: none !important;
+        }
+        
+        body {
             display: flex;
             justify-content: flex-start;
             align-items: center;
-            padding-left: 50px;
-            font-size: 18px;
-            margin: 0;
-            padding: 0;
+            padding-left: 80px;
         }
         
         .menu-container {
-            width: 450px;
-            min-height: 700px;
-            background: rgba(15, 20, 25, 0.98);
-            border-radius: 15px;
-            border: 2px solid rgba(100, 255, 180, 0.6);
-            box-shadow: 0 0 40px rgba(100, 255, 180, 0.4);
+            width: 500px;
+            min-height: 800px;
+            background: rgba(15, 20, 25, 0.95);
+            border-radius: 20px;
+            border: 3px solid rgba(100, 255, 180, 0.8);
+            box-shadow: 0 0 50px rgba(100, 255, 180, 0.5);
             overflow: hidden;
-            animation: slideIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: slideIn 0.6s cubic-bezier(0.4, 0, 0.2, 1);
             display: block;
-            backdrop-filter: blur(10px);
-            transform: scale(1.2);
-            transform-origin: left center;
+            backdrop-filter: blur(15px);
             position: relative;
             z-index: 9999;
         }
@@ -48,46 +48,46 @@
         @keyframes slideIn {
             from { 
                 opacity: 0; 
-                transform: translateY(-30px) scale(0.95); 
+                transform: translateX(-50px) scale(0.9); 
             }
             to { 
                 opacity: 1; 
-                transform: translateY(0) scale(1); 
+                transform: translateX(0) scale(1); 
             }
         }
         
         .menu-header {
             background: linear-gradient(135deg, rgba(100, 255, 180, 0.95), rgba(80, 200, 150, 0.95));
-            padding: 30px 25px;
+            padding: 35px 30px;
             text-align: center;
             position: relative;
         }
         
         .menu-title {
-            font-size: 42px;
+            font-size: 48px;
             font-weight: 900;
-            letter-spacing: 8px;
-            text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.8);
+            letter-spacing: 10px;
+            text-shadow: 4px 4px 10px rgba(0, 0, 0, 0.8);
             color: #ffffff;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
         }
         
         .menu-subtitle {
-            font-size: 16px;
+            font-size: 18px;
             opacity: 0.9;
             color: #e8f5e8;
-            letter-spacing: 3px;
+            letter-spacing: 4px;
             font-weight: 500;
         }
         
         .menu-items {
             padding: 0;
-            max-height: 400px;
+            max-height: 500px;
             overflow-y: auto;
         }
         
         .menu-items::-webkit-scrollbar {
-            width: 6px;
+            width: 8px;
         }
         
         .menu-items::-webkit-scrollbar-track {
@@ -96,20 +96,20 @@
         
         .menu-items::-webkit-scrollbar-thumb {
             background: rgba(100, 255, 180, 0.6);
-            border-radius: 3px;
+            border-radius: 4px;
         }
         
         .menu-item {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 20px 30px;
+            padding: 25px 35px;
             border-bottom: 1px solid rgba(40, 50, 60, 0.7);
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             user-select: none;
-            min-height: 60px;
+            min-height: 70px;
         }
         
         .menu-item:last-child {
@@ -118,20 +118,20 @@
         
         .menu-item:hover,
         .menu-item.selected {
-            background: linear-gradient(90deg, rgba(100, 255, 180, 0.25), rgba(100, 255, 180, 0.08));
-            border-left: 5px solid #64ffb4;
-            padding-left: 20px;
-            transform: translateX(8px);
-            box-shadow: inset 0 0 25px rgba(100, 255, 180, 0.15);
+            background: linear-gradient(90deg, rgba(100, 255, 180, 0.3), rgba(100, 255, 180, 0.1));
+            border-left: 6px solid #64ffb4;
+            padding-left: 29px;
+            transform: translateX(10px);
+            box-shadow: inset 0 0 30px rgba(100, 255, 180, 0.2);
         }
         
         .menu-item .icon {
-            width: 30px;
-            height: 30px;
-            margin-right: 20px;
+            width: 35px;
+            height: 35px;
+            margin-right: 25px;
             opacity: 0.85;
             transition: all 0.3s ease;
-            font-size: 24px;
+            font-size: 28px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -140,12 +140,12 @@
         .menu-item:hover .icon,
         .menu-item.selected .icon {
             opacity: 1;
-            transform: scale(1.2);
+            transform: scale(1.3);
         }
         
         .menu-item .text {
             flex: 1;
-            font-size: 20px;
+            font-size: 22px;
             font-weight: 500;
             color: #e5e5e5;
             transition: all 0.3s ease;
@@ -158,7 +158,7 @@
         }
         
         .menu-item .arrow {
-            font-size: 22px;
+            font-size: 26px;
             color: rgba(100, 255, 180, 0.75);
             transition: all 0.3s ease;
             font-weight: bold;
@@ -167,13 +167,13 @@
         .menu-item:hover .arrow,
         .menu-item.selected .arrow {
             color: #64ffb4;
-            transform: translateX(6px) scale(1.3);
+            transform: translateX(8px) scale(1.4);
         }
         
         .menu-footer {
             background: rgba(8, 12, 18, 0.95);
-            padding: 16px 25px;
-            font-size: 12px;
+            padding: 20px 35px;
+            font-size: 14px;
             color: #999;
             border-top: 1px solid rgba(40, 50, 60, 0.8);
             display: flex;
@@ -189,6 +189,7 @@
         .menu-footer .counter {
             color: #64ffb4;
             font-weight: bold;
+            font-size: 16px;
         }
         
         .menu-item.selected::before {
@@ -197,32 +198,32 @@
             left: 0;
             top: 0;
             bottom: 0;
-            width: 5px;
+            width: 6px;
             background: linear-gradient(180deg, #64ffb4, #50c878);
-            border-radius: 0 4px 4px 0;
+            border-radius: 0 5px 5px 0;
         }
         
         .menu-item.clicked {
-            animation: clickEffect 0.5s ease;
+            animation: clickEffect 0.6s ease;
         }
         
         @keyframes clickEffect {
             0% { 
-                transform: translateX(8px) scale(1); 
-                background: linear-gradient(90deg, rgba(100, 255, 180, 0.25), rgba(100, 255, 180, 0.08)); 
+                transform: translateX(10px) scale(1); 
+                background: linear-gradient(90deg, rgba(100, 255, 180, 0.3), rgba(100, 255, 180, 0.1)); 
             }
             50% { 
-                transform: translateX(15px) scale(1.05); 
-                background: rgba(100, 255, 180, 0.5); 
+                transform: translateX(20px) scale(1.08); 
+                background: rgba(100, 255, 180, 0.6); 
             }
             100% { 
-                transform: translateX(8px) scale(1); 
-                background: linear-gradient(90deg, rgba(100, 255, 180, 0.25), rgba(100, 255, 180, 0.08)); 
+                transform: translateX(10px) scale(1); 
+                background: linear-gradient(90deg, rgba(100, 255, 180, 0.3), rgba(100, 255, 180, 0.1)); 
             }
         }
         
         .menu-item:hover {
-            box-shadow: inset 0 0 25px rgba(100, 255, 180, 0.15), 0 0 20px rgba(100, 255, 180, 0.2);
+            box-shadow: inset 0 0 30px rgba(100, 255, 180, 0.2), 0 0 25px rgba(100, 255, 180, 0.3);
         }
         
         .menu-hidden {
@@ -230,7 +231,7 @@
         }
     </style>
 </head>
-<body>
+<body tabindex="0">
     <div class="menu-container" id="menuContainer">
         <div class="menu-header">
             <div class="menu-title">AURA</div>
@@ -284,50 +285,59 @@
             </div>
         </div>
         <div class="menu-footer">
-            <span>Version: <span class="version">v2.0</span> | Aura System</span>
+            <span>Version: <span class="version">v3.0</span> | Aura System</span>
             <span class="counter">5/9</span>
         </div>
     </div>
 
     <script>
+        console.log('🚀 Starting Aura Menu v3.0');
+        
         let currentIndex = 4; // البداية من Vehicle
         const menuItems = document.querySelectorAll('.menu-item');
         const maxIndex = menuItems.length - 1;
         const menuContainer = document.getElementById('menuContainer');
 
-        // تحسين إرسال الرسائل
+        // إرسال رسائل NUI
         function sendNuiMessage(data) {
+            console.log('📤 Sending NUI message:', data);
             try {
                 if (typeof GetParentResourceName !== 'undefined') {
                     fetch(`https://${GetParentResourceName()}/menuAction`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(data)
-                    }).catch(err => console.error('NUI Error:', err));
+                    }).catch(err => console.error('❌ NUI Error:', err));
                 } else {
-                    console.log('Simulated NUI message:', data);
+                    console.log('🔧 Simulated NUI message:', data);
                 }
             } catch (error) {
-                console.error('Error sending NUI message:', error);
+                console.error('❌ Error sending NUI message:', error);
             }
         }
 
         // تحديث التحديد
         function updateSelection() {
-            console.log('Updating selection to index:', currentIndex);
+            console.log('🔄 Updating selection to index:', currentIndex);
+            
+            // إزالة التحديد من جميع العناصر
             menuItems.forEach((item, index) => {
                 item.classList.remove('selected');
                 if (index === currentIndex) {
                     item.classList.add('selected');
                 }
             });
+            
+            // تحديث العداد
             document.querySelector('.counter').textContent = `${currentIndex + 1}/9`;
             
             // التمرير السلس
             menuItems[currentIndex].scrollIntoView({ 
                 behavior: 'smooth', 
-                block: 'nearest' 
+                block: 'center' 
             });
+            
+            console.log('✅ Selection updated to:', menuItems[currentIndex].querySelector('.text').textContent);
         }
 
         // تحديد العنصر
@@ -336,7 +346,11 @@
             const action = selectedItem.dataset.action;
             const itemText = selectedItem.querySelector('.text').textContent;
 
-            console.log('🎯 Selecting item:', action, itemText);
+            console.log('🎯 SELECTING ITEM:', action, '-', itemText);
+
+            // تأثير النقر
+            selectedItem.classList.add('clicked');
+            setTimeout(() => selectedItem.classList.remove('clicked'), 600);
 
             // إرسال الرسالة
             sendNuiMessage({
@@ -344,92 +358,92 @@
                 item: action,
                 name: itemText
             });
-
-            // تأثير النقر
-            selectedItem.classList.add('clicked');
-            setTimeout(() => selectedItem.classList.remove('clicked'), 500);
         }
 
-        // التحكم بالكيبورد - نسخة محسنة
-        function handleKeyPress(e) {
-            console.log('🎮 Key pressed:', e.key, 'keyCode:', e.keyCode);
+        // معالجة الأحداث - النسخة النهائية
+        function initializeKeyboardControl() {
+            console.log('⌨️ Setting up keyboard control...');
             
-            // منع جميع الأحداث الافتراضية
-            e.preventDefault();
-            e.stopPropagation();
-            e.stopImmediatePropagation();
-            
-            switch(e.key) {
-                case 'ArrowUp':
-                    console.log('⬆️ Arrow Up pressed - Moving up');
-                    currentIndex = currentIndex > 0 ? currentIndex - 1 : maxIndex;
-                    updateSelection();
-                    return false;
-                    
-                case 'ArrowDown':
-                    console.log('⬇️ Arrow Down pressed - Moving down');
-                    currentIndex = currentIndex < maxIndex ? currentIndex + 1 : 0;
-                    updateSelection();
-                    return false;
-                    
-                case 'Enter':
-                    console.log('✅ Enter pressed - Selecting item');
-                    selectItem();
-                    return false;
-                    
-                case 'Escape':
-                    console.log('❌ Escape pressed - Closing menu');
-                    sendNuiMessage({ action: 'close' });
-                    return false;
-            }
-            
-            // التحكم بـ WASD أيضاً
-            switch(e.keyCode) {
-                case 87: // W
-                    console.log('⬆️ W pressed - Moving up');
-                    currentIndex = currentIndex > 0 ? currentIndex - 1 : maxIndex;
-                    updateSelection();
-                    return false;
-                    
-                case 83: // S
-                    console.log('⬇️ S pressed - Moving down');
-                    currentIndex = currentIndex < maxIndex ? currentIndex + 1 : 0;
-                    updateSelection();
-                    return false;
-            }
-            
-            return false;
-        }
-
-        // إضافة مستمعات الأحداث بطرق متعددة
-        document.addEventListener('keydown', handleKeyPress, true);
-        document.addEventListener('keypress', handleKeyPress, true);
-        window.addEventListener('keydown', handleKeyPress, true);
-
-        // معالجة الأحداث مع focus قوي
-        document.addEventListener('DOMContentLoaded', () => {
-            console.log('🚀 DOM loaded - Setting up menu');
-            
-            // جعل الصفحة قابلة للـ focus
+            // التأكد من أن body قابل للـ focus
             document.body.setAttribute('tabindex', '0');
             document.body.style.outline = 'none';
             document.body.focus();
             
-            // تحديث الاختيار الأولي
-            updateSelection();
+            // معالجة الأحداث الرئيسية
+            function handleKey(event) {
+                const key = event.key;
+                const keyCode = event.keyCode;
+                
+                console.log('🎮 Key Event:', key, 'Code:', keyCode);
+                
+                // منع الأحداث الافتراضية
+                event.preventDefault();
+                event.stopPropagation();
+                event.stopImmediatePropagation();
+                
+                // التحكم بالأسهم
+                if (key === 'ArrowUp' || keyCode === 38) {
+                    console.log('⬆️ ARROW UP - Moving to previous item');
+                    currentIndex = currentIndex > 0 ? currentIndex - 1 : maxIndex;
+                    updateSelection();
+                    return false;
+                }
+                
+                if (key === 'ArrowDown' || keyCode === 40) {
+                    console.log('⬇️ ARROW DOWN - Moving to next item');
+                    currentIndex = currentIndex < maxIndex ? currentIndex + 1 : 0;
+                    updateSelection();
+                    return false;
+                }
+                
+                // Enter للاختيار
+                if (key === 'Enter' || keyCode === 13) {
+                    console.log('✅ ENTER - Selecting current item');
+                    selectItem();
+                    return false;
+                }
+                
+                // Escape للإغلاق
+                if (key === 'Escape' || keyCode === 27) {
+                    console.log('❌ ESCAPE - Closing menu');
+                    sendNuiMessage({ action: 'close' });
+                    return false;
+                }
+                
+                return false;
+            }
             
-            console.log('🌟 Aura Menu initialized with focus');
-            console.log('🎮 Use Arrow Keys or WASD to navigate, Enter to select');
+            // إضافة مستمعات متعددة
+            document.addEventListener('keydown', handleKey, true);
+            document.addEventListener('keyup', handleKey, true);
+            window.addEventListener('keydown', handleKey, true);
+            
+            // التأكد من الـ focus كل 100ms
+            setInterval(() => {
+                if (document.activeElement !== document.body) {
+                    document.body.focus();
+                }
+            }, 100);
+            
+            console.log('✅ Keyboard control initialized');
+        }
+
+        // التهيئة عند تحميل الصفحة
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('📋 DOM Content Loaded');
+            initializeKeyboardControl();
+            updateSelection();
+            console.log('🌟 Aura Menu fully initialized');
         });
 
-        // التأكد من الـ focus
-        setInterval(() => {
-            if (document.activeElement !== document.body) {
-                document.body.focus();
-            }
-        }, 100);
+        // التأكد من التحميل
+        window.addEventListener('load', function() {
+            console.log('🔄 Window loaded - Re-initializing controls');
+            initializeKeyboardControl();
+            updateSelection();
+        });
 
-        // أحداث الماوس
+        // أحداث الماوس للتوافق
         menuItems.forEach((item, index) => {
             item.addEventListener('mouseenter', () => {
                 currentIndex = index;
@@ -439,36 +453,40 @@
             item.addEventListener('click', () => {
                 currentIndex = index;
                 updateSelection();
-                setTimeout(selectItem, 150);
+                setTimeout(selectItem, 200);
             });
         });
 
         // استقبال الرسائل من FiveM
         window.addEventListener('message', function(event) {
             const data = event.data;
-            console.log('📨 Received message:', data);
+            console.log('📨 Received FiveM message:', data);
             
             if (data.type === 'showMenu') {
                 menuContainer.style.display = 'block';
                 menuContainer.classList.remove('menu-hidden');
                 document.body.focus();
                 updateSelection();
-                console.log('✅ Menu shown and focused');
+                initializeKeyboardControl(); // إعادة تهيئة التحكم
+                console.log('✅ Menu shown and controls activated');
             } else if (data.type === 'hideMenu') {
                 menuContainer.classList.add('menu-hidden');
                 console.log('✅ Menu hidden');
             }
         });
 
-        // تحديث الحالة الأولية
+        // تحديث أولي
         updateSelection();
 
-        // رسالة الترحيب
+        // رسائل التشخيص
         console.log('========================================');
-        console.log('🌟 AURA MENU - Enhanced Version v2.1');
-        console.log('⌨️ Controls: Arrow Keys ↑↓, WASD, Enter, ESC');
-        console.log('🖱️ Mouse: Hover & Click supported');
-        console.log('✅ Ready for FiveM integration');
+        console.log('🌟 AURA MENU v3.0 - READY');
+        console.log('⌨️ Controls:');
+        console.log('   ↑↓ Arrow Keys - Navigate');
+        console.log('   Enter - Select');
+        console.log('   Escape - Close');
+        console.log('🖱️ Mouse support enabled');
+        console.log('✅ All systems ready');
         console.log('========================================');
     </script>
 </body>
