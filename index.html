@@ -12,57 +12,48 @@
         }
         
         html, body {
-            background: none !important;
-            background-color: rgba(0,0,0,0) !important;
+            background: transparent !important;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             overflow: hidden;
             height: 100vh;
             width: 100vw;
             color: white;
-            cursor: default;
             outline: none !important;
-            margin: 0;
-            padding: 0;
         }
         
         body {
             display: flex;
             justify-content: flex-start;
             align-items: center;
-            padding-left: 80px;
+            padding-left: 100px;
         }
         
         .menu-container {
-            width: 500px;
-            min-height: 800px;
+            width: 450px;
+            min-height: 700px;
             background: rgba(15, 20, 25, 0.95);
             border-radius: 20px;
             border: 3px solid rgba(100, 255, 180, 0.8);
             box-shadow: 0 0 50px rgba(100, 255, 180, 0.5);
             overflow: hidden;
-            animation: slideIn 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-            display: block;
+            animation: slideIn 0.6s ease;
+            display: none;
             backdrop-filter: blur(15px);
-            position: relative;
-            z-index: 9999;
+        }
+        
+        .menu-container.show {
+            display: block;
         }
         
         @keyframes slideIn {
-            from { 
-                opacity: 0; 
-                transform: translateX(-50px) scale(0.9); 
-            }
-            to { 
-                opacity: 1; 
-                transform: translateX(0) scale(1); 
-            }
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
         }
         
         .menu-header {
             background: linear-gradient(135deg, rgba(100, 255, 180, 0.95), rgba(80, 200, 150, 0.95));
             padding: 35px 30px;
             text-align: center;
-            position: relative;
         }
         
         .menu-title {
@@ -84,21 +75,6 @@
         
         .menu-items {
             padding: 0;
-            max-height: 500px;
-            overflow-y: auto;
-        }
-        
-        .menu-items::-webkit-scrollbar {
-            width: 8px;
-        }
-        
-        .menu-items::-webkit-scrollbar-track {
-            background: rgba(40, 50, 60, 0.3);
-        }
-        
-        .menu-items::-webkit-scrollbar-thumb {
-            background: rgba(100, 255, 180, 0.6);
-            border-radius: 4px;
         }
         
         .menu-item {
@@ -108,7 +84,7 @@
             padding: 25px 35px;
             border-bottom: 1px solid rgba(40, 50, 60, 0.7);
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s ease;
             position: relative;
             user-select: none;
             min-height: 70px;
@@ -118,7 +94,6 @@
             border-bottom: none;
         }
         
-        .menu-item:hover,
         .menu-item.selected {
             background: linear-gradient(90deg, rgba(100, 255, 180, 0.3), rgba(100, 255, 180, 0.1));
             border-left: 6px solid #64ffb4;
@@ -131,17 +106,14 @@
             width: 35px;
             height: 35px;
             margin-right: 25px;
-            opacity: 0.85;
-            transition: all 0.3s ease;
             font-size: 28px;
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: all 0.3s ease;
         }
         
-        .menu-item:hover .icon,
         .menu-item.selected .icon {
-            opacity: 1;
             transform: scale(1.3);
         }
         
@@ -153,7 +125,6 @@
             transition: all 0.3s ease;
         }
         
-        .menu-item:hover .text,
         .menu-item.selected .text {
             color: #ffffff;
             font-weight: 600;
@@ -166,7 +137,6 @@
             font-weight: bold;
         }
         
-        .menu-item:hover .arrow,
         .menu-item.selected .arrow {
             color: #64ffb4;
             transform: translateX(8px) scale(1.4);
@@ -204,218 +174,141 @@
             background: linear-gradient(180deg, #64ffb4, #50c878);
             border-radius: 0 5px 5px 0;
         }
-        
-        .menu-item.clicked {
-            animation: clickEffect 0.6s ease;
-        }
-        
-        @keyframes clickEffect {
-            0% { 
-                transform: translateX(10px) scale(1); 
-                background: linear-gradient(90deg, rgba(100, 255, 180, 0.3), rgba(100, 255, 180, 0.1)); 
-            }
-            50% { 
-                transform: translateX(20px) scale(1.08); 
-                background: rgba(100, 255, 180, 0.6); 
-            }
-            100% { 
-                transform: translateX(10px) scale(1); 
-                background: linear-gradient(90deg, rgba(100, 255, 180, 0.3), rgba(100, 255, 180, 0.1)); 
-            }
-        }
-        
-        .menu-item:hover {
-            box-shadow: inset 0 0 30px rgba(100, 255, 180, 0.2), 0 0 25px rgba(100, 255, 180, 0.3);
-        }
-        
-        .menu-hidden {
-            display: none !important;
-        }
     </style>
 </head>
-<body tabindex="0">
+<body>
     <div class="menu-container" id="menuContainer">
         <div class="menu-header">
             <div class="menu-title">AURA</div>
             <div class="menu-subtitle">MENU SYSTEM</div>
         </div>
         <div class="menu-items">
-            <div class="menu-item" data-index="0" data-action="self">
+            <div class="menu-item" data-index="0">
                 <div class="icon">👤</div>
                 <div class="text">Self</div>
                 <div class="arrow">»</div>
             </div>
-            <div class="menu-item" data-index="1" data-action="online">
+            <div class="menu-item" data-index="1">
                 <div class="icon">🌐</div>
                 <div class="text">Online</div>
                 <div class="arrow">»</div>
             </div>
-            <div class="menu-item" data-index="2" data-action="combat">
+            <div class="menu-item" data-index="2">
                 <div class="icon">⚔️</div>
                 <div class="text">Combat/Weapons</div>
                 <div class="arrow">»</div>
             </div>
-            <div class="menu-item" data-index="3" data-action="visual">
+            <div class="menu-item" data-index="3">
                 <div class="icon">👁️</div>
                 <div class="text">Visual</div>
                 <div class="arrow">»</div>
             </div>
-            <div class="menu-item selected" data-index="4" data-action="vehicle">
+            <div class="menu-item selected" data-index="4">
                 <div class="icon">🚗</div>
                 <div class="text">Vehicle</div>
                 <div class="arrow">»</div>
             </div>
-            <div class="menu-item" data-index="5" data-action="misc">
+            <div class="menu-item" data-index="5">
                 <div class="icon">📂</div>
                 <div class="text">Miscellaneous</div>
                 <div class="arrow">»</div>
             </div>
-            <div class="menu-item" data-index="6" data-action="destructive">
+            <div class="menu-item" data-index="6">
                 <div class="icon">💥</div>
                 <div class="text">Destructive</div>
                 <div class="arrow">»</div>
             </div>
-            <div class="menu-item" data-index="7" data-action="triggers">
+            <div class="menu-item" data-index="7">
                 <div class="icon">⚡</div>
                 <div class="text">Triggers</div>
                 <div class="arrow">»</div>
             </div>
-            <div class="menu-item" data-index="8" data-action="settings">
+            <div class="menu-item" data-index="8">
                 <div class="icon">⚙️</div>
                 <div class="text">Settings</div>
                 <div class="arrow">»</div>
             </div>
         </div>
         <div class="menu-footer">
-            <span>Version: <span class="version">v3.0</span> | Aura System</span>
-            <span class="counter">5/9</span>
+            <span>Version: <span class="version">v7.0</span> | Aura System</span>
+            <span class="counter" id="counter">5/9</span>
         </div>
     </div>
 
     <script>
-        console.log('🚀 Starting Aura Menu v3.1');
-        
-        let currentIndex = 4; // البداية من Vehicle
+        let currentIndex = 4;
         const menuItems = document.querySelectorAll('.menu-item');
-        const maxIndex = menuItems.length - 1;
         const menuContainer = document.getElementById('menuContainer');
+        const counter = document.getElementById('counter');
 
-        // إرسال رسائل NUI (للتوافق فقط)
-        function sendNuiMessage(data) {
-            try {
-                if (typeof GetParentResourceName !== 'undefined') {
-                    fetch(`https://${GetParentResourceName()}/menuAction`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(data)
-                    }).catch(err => console.error('❌ NUI Error:', err));
-                }
-            } catch (error) {
-                console.error('❌ Error sending NUI message:', error);
-            }
-        }
-
-        // تحديث التحديد
-        function updateSelection(newIndex) {
-            if (typeof newIndex !== 'undefined') {
-                currentIndex = newIndex;
+        function updateSelection(index) {
+            if (index !== undefined) {
+                currentIndex = index;
             }
             
-            console.log('🔄 Updating selection to index:', currentIndex);
-            
-            // إزالة التحديد من جميع العناصر
-            menuItems.forEach((item, index) => {
+            menuItems.forEach((item, i) => {
                 item.classList.remove('selected');
-                if (index === currentIndex) {
+                if (i === currentIndex) {
                     item.classList.add('selected');
                 }
             });
             
-            // تحديث العداد
-            document.querySelector('.counter').textContent = `${currentIndex + 1}/9`;
-            
-            // التمرير السلس
-            if (menuItems[currentIndex]) {
-                menuItems[currentIndex].scrollIntoView({ 
-                    behavior: 'smooth', 
-                    block: 'center' 
-                });
-            }
-            
-            console.log('✅ Selection updated to:', menuItems[currentIndex]?.querySelector('.text')?.textContent || 'Unknown');
+            counter.textContent = `${currentIndex + 1}/9`;
         }
 
-        // تأثير الاختيار
-        function selectItemEffect(index) {
-            if (typeof index !== 'undefined') {
-                currentIndex = index;
-            }
-            
-            const selectedItem = menuItems[currentIndex];
-            if (selectedItem) {
-                selectedItem.classList.add('clicked');
-                setTimeout(() => selectedItem.classList.remove('clicked'), 600);
-                console.log('🎯 Item selected with effect:', selectedItem.querySelector('.text').textContent);
+        function sendNuiMessage(data) {
+            try {
+                fetch(`https://${GetParentResourceName()}/menuAction`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                }).catch(err => console.error('NUI Error:', err));
+            } catch (error) {
+                console.log('Message:', data);
             }
         }
 
-        // استقبال الرسائل من FiveM
+        // التحكم بالأسهم
+        document.addEventListener('keydown', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            switch(e.key) {
+                case 'ArrowUp':
+                    sendNuiMessage({ action: 'navigate', direction: 'up' });
+                    break;
+                case 'ArrowDown':
+                    sendNuiMessage({ action: 'navigate', direction: 'down' });
+                    break;
+                case 'Enter':
+                    sendNuiMessage({ action: 'select' });
+                    break;
+                case 'Escape':
+                    sendNuiMessage({ action: 'close' });
+                    break;
+            }
+        }, true);
+
+        // استقبال الرسائل
         window.addEventListener('message', function(event) {
             const data = event.data;
-            console.log('📨 Received FiveM message:', data);
             
             if (data.type === 'showMenu') {
-                menuContainer.style.display = 'block';
-                menuContainer.classList.remove('menu-hidden');
-                
-                // تحديث البيانات إذا كانت متوفرة
-                if (data.currentIndex !== undefined) {
-                    updateSelection(data.currentIndex);
-                }
-                
-                console.log('✅ Menu shown');
-                
+                menuContainer.classList.add('show');
+                updateSelection(data.currentIndex || 4);
+                document.body.focus();
             } else if (data.type === 'hideMenu') {
-                menuContainer.classList.add('menu-hidden');
-                console.log('✅ Menu hidden');
-                
+                menuContainer.classList.remove('show');
             } else if (data.type === 'updateSelection') {
                 updateSelection(data.currentIndex);
-                
-            } else if (data.type === 'selectItem') {
-                selectItemEffect(data.index);
             }
         });
 
-        // تهيئة أولية
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('📋 DOM Content Loaded');
+            document.body.setAttribute('tabindex', '0');
+            document.body.focus();
             updateSelection();
-            console.log('🌟 Aura Menu HTML ready - Control via Lua');
         });
-
-        // أحداث الماوس للتوافق (اختيارية)
-        menuItems.forEach((item, index) => {
-            item.addEventListener('click', () => {
-                console.log('🖱️ Mouse click on item:', index);
-                sendNuiMessage({
-                    action: 'select',
-                    item: item.dataset.action,
-                    name: item.querySelector('.text').textContent
-                });
-            });
-        });
-
-        // تحديث أولي
-        updateSelection();
-
-        // رسائل التشخيص
-        console.log('========================================');
-        console.log('🌟 AURA MENU HTML v3.1 - READY');
-        console.log('🎮 Control handled by Lua script');
-        console.log('🖱️ Mouse clicks supported');
-        console.log('✅ Waiting for Lua commands');
-        console.log('========================================');
     </script>
 </body>
 </html>
