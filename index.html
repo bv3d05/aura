@@ -10,158 +10,218 @@
             padding: 0;
             box-sizing: border-box;
         }
+        
         body {
             background: transparent;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             overflow: hidden;
             height: 100vh;
+            width: 100vw;
             color: white;
             cursor: default;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
+        
         .menu-container {
-            position: absolute;
-            top: 50px;
-            left: 50px;
-            width: 320px;
+            width: 350px;
             background: rgba(15, 20, 25, 0.98);
-            border-radius: 12px;
-            border: 1px solid rgba(100, 255, 180, 0.6);
-            box-shadow: 0 0 30px rgba(100, 255, 180, 0.4);
+            border-radius: 15px;
+            border: 2px solid rgba(100, 255, 180, 0.6);
+            box-shadow: 0 0 40px rgba(100, 255, 180, 0.4);
             overflow: hidden;
-            animation: slideIn 0.4s ease-out;
-            display: none;
+            animation: slideIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            display: block;
+            backdrop-filter: blur(10px);
         }
+        
         @keyframes slideIn {
-            from { opacity: 0; transform: translateX(-40px); }
-            to { opacity: 1; transform: translateX(0); }
+            from { 
+                opacity: 0; 
+                transform: translateY(-30px) scale(0.95); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0) scale(1); 
+            }
         }
+        
         .menu-header {
             background: linear-gradient(135deg, rgba(100, 255, 180, 0.95), rgba(80, 200, 150, 0.95));
-            padding: 22px;
+            padding: 25px;
             text-align: center;
             position: relative;
         }
+        
         .menu-title {
-            font-size: 32px;
-            font-weight: bold;
-            letter-spacing: 4px;
-            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8);
+            font-size: 36px;
+            font-weight: 900;
+            letter-spacing: 6px;
+            text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.8);
             color: #ffffff;
-            margin-bottom: 2px;
+            margin-bottom: 5px;
         }
+        
         .menu-subtitle {
-            font-size: 13px;
+            font-size: 14px;
             opacity: 0.9;
             color: #e8f5e8;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
+            font-weight: 500;
         }
+        
         .menu-items {
             padding: 0;
+            max-height: 400px;
+            overflow-y: auto;
         }
+        
+        .menu-items::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .menu-items::-webkit-scrollbar-track {
+            background: rgba(40, 50, 60, 0.3);
+        }
+        
+        .menu-items::-webkit-scrollbar-thumb {
+            background: rgba(100, 255, 180, 0.6);
+            border-radius: 3px;
+        }
+        
         .menu-item {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 16px 22px;
+            padding: 18px 25px;
             border-bottom: 1px solid rgba(40, 50, 60, 0.7);
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             user-select: none;
         }
+        
         .menu-item:last-child {
             border-bottom: none;
         }
+        
         .menu-item:hover,
         .menu-item.selected {
             background: linear-gradient(90deg, rgba(100, 255, 180, 0.25), rgba(100, 255, 180, 0.08));
-            border-left: 4px solid #64ffb4;
-            padding-left: 18px;
-            transform: translateX(6px);
-            box-shadow: inset 0 0 20px rgba(100, 255, 180, 0.15);
+            border-left: 5px solid #64ffb4;
+            padding-left: 20px;
+            transform: translateX(8px);
+            box-shadow: inset 0 0 25px rgba(100, 255, 180, 0.15);
         }
+        
         .menu-item .icon {
-            width: 22px;
-            height: 22px;
-            margin-right: 14px;
+            width: 25px;
+            height: 25px;
+            margin-right: 16px;
             opacity: 0.85;
             transition: all 0.3s ease;
-            font-size: 17px;
+            font-size: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
+        
         .menu-item:hover .icon,
         .menu-item.selected .icon {
             opacity: 1;
-            transform: scale(1.15);
+            transform: scale(1.2);
         }
+        
         .menu-item .text {
             flex: 1;
-            font-size: 15px;
+            font-size: 16px;
             font-weight: 500;
             color: #e5e5e5;
             transition: all 0.3s ease;
         }
+        
         .menu-item:hover .text,
         .menu-item.selected .text {
             color: #ffffff;
             font-weight: 600;
         }
+        
         .menu-item .arrow {
-            font-size: 17px;
+            font-size: 18px;
             color: rgba(100, 255, 180, 0.75);
             transition: all 0.3s ease;
             font-weight: bold;
         }
+        
         .menu-item:hover .arrow,
         .menu-item.selected .arrow {
             color: #64ffb4;
-            transform: translateX(4px) scale(1.2);
+            transform: translateX(6px) scale(1.3);
         }
+        
         .menu-footer {
             background: rgba(8, 12, 18, 0.95);
-            padding: 14px 22px;
-            font-size: 11px;
+            padding: 16px 25px;
+            font-size: 12px;
             color: #999;
             border-top: 1px solid rgba(40, 50, 60, 0.8);
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
+        
         .menu-footer .version {
             color: #64ffb4;
             font-weight: bold;
         }
+        
         .menu-footer .counter {
             color: #64ffb4;
             font-weight: bold;
         }
+        
         .menu-item.selected::before {
             content: '';
             position: absolute;
             left: 0;
             top: 0;
             bottom: 0;
-            width: 4px;
+            width: 5px;
             background: linear-gradient(180deg, #64ffb4, #50c878);
-            border-radius: 0 3px 3px 0;
+            border-radius: 0 4px 4px 0;
         }
+        
         .menu-item.clicked {
-            animation: clickEffect 0.4s ease;
+            animation: clickEffect 0.5s ease;
         }
+        
         @keyframes clickEffect {
-            0% { transform: translateX(6px) scale(1); background: linear-gradient(90deg, rgba(100, 255, 180, 0.25), rgba(100, 255, 180, 0.08)); }
-            50% { transform: translateX(12px) scale(1.05); background: rgba(100, 255, 180, 0.4); }
-            100% { transform: translateX(6px) scale(1); background: linear-gradient(90deg, rgba(100, 255, 180, 0.25), rgba(100, 255, 180, 0.08)); }
+            0% { 
+                transform: translateX(8px) scale(1); 
+                background: linear-gradient(90deg, rgba(100, 255, 180, 0.25), rgba(100, 255, 180, 0.08)); 
+            }
+            50% { 
+                transform: translateX(15px) scale(1.05); 
+                background: rgba(100, 255, 180, 0.5); 
+            }
+            100% { 
+                transform: translateX(8px) scale(1); 
+                background: linear-gradient(90deg, rgba(100, 255, 180, 0.25), rgba(100, 255, 180, 0.08)); 
+            }
         }
+        
         .menu-item:hover {
-            box-shadow: inset 0 0 20px rgba(100, 255, 180, 0.15), 0 0 15px rgba(100, 255, 180, 0.2);
+            box-shadow: inset 0 0 25px rgba(100, 255, 180, 0.15), 0 0 20px rgba(100, 255, 180, 0.2);
+        }
+        
+        .menu-hidden {
+            display: none !important;
         }
     </style>
 </head>
 <body>
-    <div class="menu-container">
+    <div class="menu-container" id="menuContainer">
         <div class="menu-header">
             <div class="menu-title">AURA</div>
             <div class="menu-subtitle">MENU SYSTEM</div>
@@ -214,98 +274,149 @@
             </div>
         </div>
         <div class="menu-footer">
-            <span>Version: <span class="version">v1.0</span> | Aura System</span>
+            <span>Version: <span class="version">v2.0</span> | Aura System</span>
             <span class="counter">5/9</span>
         </div>
     </div>
+
     <script>
-        let currentIndex = 0;
+        let currentIndex = 4; // البداية من Vehicle
         const menuItems = document.querySelectorAll('.menu-item');
         const maxIndex = menuItems.length - 1;
+        const menuContainer = document.getElementById('menuContainer');
 
+        // تحسين إرسال الرسائل
         function sendNuiMessage(data) {
-            fetch(`https://${GetParentResourceName()}/menuAction`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
-            }).catch(err => console.error('NUI Error:', err));
+            try {
+                if (typeof GetParentResourceName !== 'undefined') {
+                    fetch(`https://${GetParentResourceName()}/menuAction`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(data)
+                    }).catch(err => console.error('NUI Error:', err));
+                } else {
+                    console.log('Simulated NUI message:', data);
+                }
+            } catch (error) {
+                console.error('Error sending NUI message:', error);
+            }
         }
 
+        // تحديث التحديد
         function updateSelection() {
             menuItems.forEach(item => item.classList.remove('selected'));
             menuItems[currentIndex].classList.add('selected');
             document.querySelector('.counter').textContent = `${currentIndex + 1}/9`;
-            menuItems[currentIndex].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            
+            // التمرير السلس
+            menuItems[currentIndex].scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'nearest' 
+            });
         }
 
+        // تحديد العنصر
         function selectItem() {
             const selectedItem = menuItems[currentIndex];
             const action = selectedItem.dataset.action;
             const itemText = selectedItem.querySelector('.text').textContent;
 
+            console.log('Selecting item:', action, itemText);
+
+            // إرسال الرسالة
             sendNuiMessage({
                 action: 'select',
                 item: action,
                 name: itemText
             });
 
+            // تأثير النقر
             selectedItem.classList.add('clicked');
-            setTimeout(() => selectedItem.classList.remove('clicked'), 400);
+            setTimeout(() => selectedItem.classList.remove('clicked'), 500);
         }
 
+        // معالجة الأحداث
         document.addEventListener('DOMContentLoaded', () => {
             document.body.focus();
-            console.log('🌟 Menu initialized, body focused');
+            updateSelection();
+            console.log('🌟 Aura Menu initialized');
         });
 
+        // التحكم بالكيبورد
         document.addEventListener('keydown', function(e) {
-            e.preventDefault();
-            console.log('Key pressed:', e.key); // تسجيل المفاتيح للتصحيح
+            console.log('Key pressed:', e.key);
+            
             switch(e.key) {
                 case 'ArrowUp':
+                case 'w':
+                case 'W':
+                    e.preventDefault();
                     currentIndex = currentIndex > 0 ? currentIndex - 1 : maxIndex;
                     updateSelection();
                     break;
+                    
                 case 'ArrowDown':
+                case 's':
+                case 'S':
+                    e.preventDefault();
                     currentIndex = currentIndex < maxIndex ? currentIndex + 1 : 0;
                     updateSelection();
                     break;
+                    
                 case 'Enter':
                 case ' ':
+                    e.preventDefault();
                     selectItem();
                     break;
+                    
                 case 'Escape':
+                    e.preventDefault();
                     sendNuiMessage({ action: 'close' });
                     break;
             }
         });
 
+        // أحداث الماوس
         menuItems.forEach((item, index) => {
             item.addEventListener('mouseenter', () => {
                 currentIndex = index;
                 updateSelection();
             });
+            
             item.addEventListener('click', () => {
                 currentIndex = index;
                 updateSelection();
-                setTimeout(selectItem, 100);
+                setTimeout(selectItem, 150);
             });
         });
 
+        // استقبال الرسائل من FiveM
         window.addEventListener('message', function(event) {
             const data = event.data;
-            console.log('Received message:', data); // تسجيل الرسائل للتصحيح
+            console.log('Received message:', data);
+            
             if (data.type === 'showMenu') {
-                document.querySelector('.menu-container').style.display = 'block';
+                menuContainer.style.display = 'block';
+                menuContainer.classList.remove('menu-hidden');
                 document.body.focus();
-                console.log('✅ Menu shown, body focused');
+                updateSelection();
+                console.log('✅ Menu shown');
             } else if (data.type === 'hideMenu') {
-                document.querySelector('.menu-container').style.display = 'none';
+                menuContainer.classList.add('menu-hidden');
                 console.log('✅ Menu hidden');
             }
         });
 
+        // تحديث الحالة الأولية
         updateSelection();
+
+        // رسالة الترحيب
+        console.log('========================================');
+        console.log('🌟 AURA MENU - Enhanced Version');
+        console.log('⌨️ Controls: Arrow Keys, WASD, Enter, ESC');
+        console.log('🖱️ Mouse: Hover & Click supported');
+        console.log('✅ Ready for FiveM integration');
+        console.log('========================================');
     </script>
 </body>
 </html>
