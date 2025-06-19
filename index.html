@@ -164,6 +164,25 @@
             font-size: 16px;
         }
         
+        .menu-item.clicked {
+            animation: clickEffect 0.5s ease;
+        }
+        
+        @keyframes clickEffect {
+            0% { 
+                transform: translateX(10px) scale(1); 
+                background: linear-gradient(90deg, rgba(100, 255, 180, 0.3), rgba(100, 255, 180, 0.1)); 
+            }
+            50% { 
+                transform: translateX(20px) scale(1.05); 
+                background: rgba(100, 255, 180, 0.6); 
+            }
+            100% { 
+                transform: translateX(10px) scale(1); 
+                background: linear-gradient(90deg, rgba(100, 255, 180, 0.3), rgba(100, 255, 180, 0.1)); 
+            }
+        }
+        
         .menu-item.selected::before {
             content: '';
             position: absolute;
@@ -246,6 +265,8 @@
                 currentIndex = index;
             }
             
+            console.log('🔄 Updating selection to:', currentIndex);
+            
             menuItems.forEach((item, i) => {
                 item.classList.remove('selected');
                 if (i === currentIndex) {
@@ -254,61 +275,58 @@
             });
             
             counter.textContent = `${currentIndex + 1}/9`;
-        }
-
-        function sendNuiMessage(data) {
-            try {
-                fetch(`https://${GetParentResourceName()}/menuAction`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(data)
-                }).catch(err => console.error('NUI Error:', err));
-            } catch (error) {
-                console.log('Message:', data);
-            }
-        }
-
-        // التحكم بالأسهم
-        document.addEventListener('keydown', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
             
-            switch(e.key) {
-                case 'ArrowUp':
-                    sendNuiMessage({ action: 'navigate', direction: 'up' });
-                    break;
-                case 'ArrowDown':
-                    sendNuiMessage({ action: 'navigate', direction: 'down' });
-                    break;
-                case 'Enter':
-                    sendNuiMessage({ action: 'select' });
-                    break;
-                case 'Escape':
-                    sendNuiMessage({ action: 'close' });
-                    break;
+            // التمرير السلس
+            if (menuItems[currentIndex]) {
+                menuItems[currentIndex].scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'center' 
+                });
             }
-        }, true);
+        }
 
-        // استقبال الرسائل
+        function selectEffect(index) {
+            if (index !== undefined) {
+                currentIndex = index;
+            }
+            
+            const selectedItem = menuItems[currentIndex];
+            if (selectedItem) {
+                selectedItem.classList.add('clicked');
+                setTimeout(() => selectedItem.classList.remove('clicked'), 500);
+                console.log('🎯 Select effect applied to:', currentIndex);
+            }
+        }
+
+        // استقبال الرسائل من Lua فقط
         window.addEventListener('message', function(event) {
             const data = event.data;
+            console.log('📨 Received from Lua:', data);
             
             if (data.type === 'showMenu') {
                 menuContainer.classList.add('show');
                 updateSelection(data.currentIndex || 4);
-                document.body.focus();
+                console.log('✅ Menu shown');
             } else if (data.type === 'hideMenu') {
                 menuContainer.classList.remove('show');
+                console.log('✅ Menu hidden');
             } else if (data.type === 'updateSelection') {
                 updateSelection(data.currentIndex);
+            } else if (data.type === 'selectEffect') {
+                selectEffect(data.index);
             }
         });
 
         document.addEventListener('DOMContentLoaded', function() {
-            document.body.setAttribute('tabindex', '0');
-            document.body.focus();
             updateSelection();
+            console.log('🌟 Aura Menu HTML ready - Control via Lua');
         });
+
+        console.log('========================================');
+        console.log('🌟 AURA MENU HTML v7.1 - VISUAL ONLY');
+        console.log('🎮 Control handled by Lua script');
+        console.log('⌨️ No keyboard events in HTML');
+        console.log('========================================');
     </script>
 </body>
 </html>
