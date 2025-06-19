@@ -12,8 +12,8 @@
         }
         
         html, body {
-            background: transparent !important;
-            background-color: transparent !important;
+            background: none !important;
+            background-color: rgba(0,0,0,0) !important;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             overflow: hidden;
             height: 100vh;
@@ -21,6 +21,8 @@
             color: white;
             cursor: default;
             outline: none !important;
+            margin: 0;
+            padding: 0;
         }
         
         body {
@@ -291,16 +293,15 @@
     </div>
 
     <script>
-        console.log('🚀 Starting Aura Menu v3.0');
+        console.log('🚀 Starting Aura Menu v3.1');
         
         let currentIndex = 4; // البداية من Vehicle
         const menuItems = document.querySelectorAll('.menu-item');
         const maxIndex = menuItems.length - 1;
         const menuContainer = document.getElementById('menuContainer');
 
-        // إرسال رسائل NUI
+        // إرسال رسائل NUI (للتوافق فقط)
         function sendNuiMessage(data) {
-            console.log('📤 Sending NUI message:', data);
             try {
                 if (typeof GetParentResourceName !== 'undefined') {
                     fetch(`https://${GetParentResourceName()}/menuAction`, {
@@ -308,8 +309,6 @@
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(data)
                     }).catch(err => console.error('❌ NUI Error:', err));
-                } else {
-                    console.log('🔧 Simulated NUI message:', data);
                 }
             } catch (error) {
                 console.error('❌ Error sending NUI message:', error);
@@ -317,7 +316,11 @@
         }
 
         // تحديث التحديد
-        function updateSelection() {
+        function updateSelection(newIndex) {
+            if (typeof newIndex !== 'undefined') {
+                currentIndex = newIndex;
+            }
+            
             console.log('🔄 Updating selection to index:', currentIndex);
             
             // إزالة التحديد من جميع العناصر
@@ -332,130 +335,29 @@
             document.querySelector('.counter').textContent = `${currentIndex + 1}/9`;
             
             // التمرير السلس
-            menuItems[currentIndex].scrollIntoView({ 
-                behavior: 'smooth', 
-                block: 'center' 
-            });
-            
-            console.log('✅ Selection updated to:', menuItems[currentIndex].querySelector('.text').textContent);
-        }
-
-        // تحديد العنصر
-        function selectItem() {
-            const selectedItem = menuItems[currentIndex];
-            const action = selectedItem.dataset.action;
-            const itemText = selectedItem.querySelector('.text').textContent;
-
-            console.log('🎯 SELECTING ITEM:', action, '-', itemText);
-
-            // تأثير النقر
-            selectedItem.classList.add('clicked');
-            setTimeout(() => selectedItem.classList.remove('clicked'), 600);
-
-            // إرسال الرسالة
-            sendNuiMessage({
-                action: 'select',
-                item: action,
-                name: itemText
-            });
-        }
-
-        // معالجة الأحداث - النسخة النهائية
-        function initializeKeyboardControl() {
-            console.log('⌨️ Setting up keyboard control...');
-            
-            // التأكد من أن body قابل للـ focus
-            document.body.setAttribute('tabindex', '0');
-            document.body.style.outline = 'none';
-            document.body.focus();
-            
-            // معالجة الأحداث الرئيسية
-            function handleKey(event) {
-                const key = event.key;
-                const keyCode = event.keyCode;
-                
-                console.log('🎮 Key Event:', key, 'Code:', keyCode);
-                
-                // منع الأحداث الافتراضية
-                event.preventDefault();
-                event.stopPropagation();
-                event.stopImmediatePropagation();
-                
-                // التحكم بالأسهم
-                if (key === 'ArrowUp' || keyCode === 38) {
-                    console.log('⬆️ ARROW UP - Moving to previous item');
-                    currentIndex = currentIndex > 0 ? currentIndex - 1 : maxIndex;
-                    updateSelection();
-                    return false;
-                }
-                
-                if (key === 'ArrowDown' || keyCode === 40) {
-                    console.log('⬇️ ARROW DOWN - Moving to next item');
-                    currentIndex = currentIndex < maxIndex ? currentIndex + 1 : 0;
-                    updateSelection();
-                    return false;
-                }
-                
-                // Enter للاختيار
-                if (key === 'Enter' || keyCode === 13) {
-                    console.log('✅ ENTER - Selecting current item');
-                    selectItem();
-                    return false;
-                }
-                
-                // Escape للإغلاق
-                if (key === 'Escape' || keyCode === 27) {
-                    console.log('❌ ESCAPE - Closing menu');
-                    sendNuiMessage({ action: 'close' });
-                    return false;
-                }
-                
-                return false;
+            if (menuItems[currentIndex]) {
+                menuItems[currentIndex].scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'center' 
+                });
             }
             
-            // إضافة مستمعات متعددة
-            document.addEventListener('keydown', handleKey, true);
-            document.addEventListener('keyup', handleKey, true);
-            window.addEventListener('keydown', handleKey, true);
-            
-            // التأكد من الـ focus كل 100ms
-            setInterval(() => {
-                if (document.activeElement !== document.body) {
-                    document.body.focus();
-                }
-            }, 100);
-            
-            console.log('✅ Keyboard control initialized');
+            console.log('✅ Selection updated to:', menuItems[currentIndex]?.querySelector('.text')?.textContent || 'Unknown');
         }
 
-        // التهيئة عند تحميل الصفحة
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('📋 DOM Content Loaded');
-            initializeKeyboardControl();
-            updateSelection();
-            console.log('🌟 Aura Menu fully initialized');
-        });
-
-        // التأكد من التحميل
-        window.addEventListener('load', function() {
-            console.log('🔄 Window loaded - Re-initializing controls');
-            initializeKeyboardControl();
-            updateSelection();
-        });
-
-        // أحداث الماوس للتوافق
-        menuItems.forEach((item, index) => {
-            item.addEventListener('mouseenter', () => {
+        // تأثير الاختيار
+        function selectItemEffect(index) {
+            if (typeof index !== 'undefined') {
                 currentIndex = index;
-                updateSelection();
-            });
+            }
             
-            item.addEventListener('click', () => {
-                currentIndex = index;
-                updateSelection();
-                setTimeout(selectItem, 200);
-            });
-        });
+            const selectedItem = menuItems[currentIndex];
+            if (selectedItem) {
+                selectedItem.classList.add('clicked');
+                setTimeout(() => selectedItem.classList.remove('clicked'), 600);
+                console.log('🎯 Item selected with effect:', selectedItem.querySelector('.text').textContent);
+            }
+        }
 
         // استقبال الرسائل من FiveM
         window.addEventListener('message', function(event) {
@@ -465,14 +367,43 @@
             if (data.type === 'showMenu') {
                 menuContainer.style.display = 'block';
                 menuContainer.classList.remove('menu-hidden');
-                document.body.focus();
-                updateSelection();
-                initializeKeyboardControl(); // إعادة تهيئة التحكم
-                console.log('✅ Menu shown and controls activated');
+                
+                // تحديث البيانات إذا كانت متوفرة
+                if (data.currentIndex !== undefined) {
+                    updateSelection(data.currentIndex);
+                }
+                
+                console.log('✅ Menu shown');
+                
             } else if (data.type === 'hideMenu') {
                 menuContainer.classList.add('menu-hidden');
                 console.log('✅ Menu hidden');
+                
+            } else if (data.type === 'updateSelection') {
+                updateSelection(data.currentIndex);
+                
+            } else if (data.type === 'selectItem') {
+                selectItemEffect(data.index);
             }
+        });
+
+        // تهيئة أولية
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('📋 DOM Content Loaded');
+            updateSelection();
+            console.log('🌟 Aura Menu HTML ready - Control via Lua');
+        });
+
+        // أحداث الماوس للتوافق (اختيارية)
+        menuItems.forEach((item, index) => {
+            item.addEventListener('click', () => {
+                console.log('🖱️ Mouse click on item:', index);
+                sendNuiMessage({
+                    action: 'select',
+                    item: item.dataset.action,
+                    name: item.querySelector('.text').textContent
+                });
+            });
         });
 
         // تحديث أولي
@@ -480,13 +411,10 @@
 
         // رسائل التشخيص
         console.log('========================================');
-        console.log('🌟 AURA MENU v3.0 - READY');
-        console.log('⌨️ Controls:');
-        console.log('   ↑↓ Arrow Keys - Navigate');
-        console.log('   Enter - Select');
-        console.log('   Escape - Close');
-        console.log('🖱️ Mouse support enabled');
-        console.log('✅ All systems ready');
+        console.log('🌟 AURA MENU HTML v3.1 - READY');
+        console.log('🎮 Control handled by Lua script');
+        console.log('🖱️ Mouse clicks supported');
+        console.log('✅ Waiting for Lua commands');
         console.log('========================================');
     </script>
 </body>
