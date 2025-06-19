@@ -12,7 +12,7 @@
         }
         
         body {
-            background: rgba(0, 0, 0, 0.1);
+            background: transparent !important;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             overflow: hidden;
             height: 100vh;
@@ -23,12 +23,14 @@
             justify-content: flex-start;
             align-items: center;
             padding-left: 50px;
-            font-size: 16px;
+            font-size: 18px;
+            margin: 0;
+            padding: 0;
         }
         
         .menu-container {
-            width: 380px;
-            min-height: 600px;
+            width: 450px;
+            min-height: 700px;
             background: rgba(15, 20, 25, 0.98);
             border-radius: 15px;
             border: 2px solid rgba(100, 255, 180, 0.6);
@@ -37,8 +39,10 @@
             animation: slideIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             display: block;
             backdrop-filter: blur(10px);
-            transform: scale(1);
+            transform: scale(1.2);
             transform-origin: left center;
+            position: relative;
+            z-index: 9999;
         }
         
         @keyframes slideIn {
@@ -141,7 +145,7 @@
         
         .menu-item .text {
             flex: 1;
-            font-size: 18px;
+            font-size: 20px;
             font-weight: 500;
             color: #e5e5e5;
             transition: all 0.3s ease;
@@ -310,8 +314,13 @@
 
         // تحديث التحديد
         function updateSelection() {
-            menuItems.forEach(item => item.classList.remove('selected'));
-            menuItems[currentIndex].classList.add('selected');
+            console.log('Updating selection to index:', currentIndex);
+            menuItems.forEach((item, index) => {
+                item.classList.remove('selected');
+                if (index === currentIndex) {
+                    item.classList.add('selected');
+                }
+            });
             document.querySelector('.counter').textContent = `${currentIndex + 1}/9`;
             
             // التمرير السلس
@@ -327,7 +336,7 @@
             const action = selectedItem.dataset.action;
             const itemText = selectedItem.querySelector('.text').textContent;
 
-            console.log('Selecting item:', action, itemText);
+            console.log('🎯 Selecting item:', action, itemText);
 
             // إرسال الرسالة
             sendNuiMessage({
@@ -341,55 +350,84 @@
             setTimeout(() => selectedItem.classList.remove('clicked'), 500);
         }
 
-        // معالجة الأحداث مع focus مناسب
-        document.addEventListener('DOMContentLoaded', () => {
-            // جعل الصفحة قابلة للـ focus
-            document.body.setAttribute('tabindex', '0');
-            document.body.focus();
-            updateSelection();
-            console.log('🌟 Aura Menu initialized with focus');
-        });
-
-        // إضافة focus عند النقر في أي مكان
-        document.addEventListener('click', () => {
-            document.body.focus();
-        });
-
-        // التحكم بالكيبورد مع منع الأحداث الافتراضية
-        document.addEventListener('keydown', function(e) {
-            console.log('Key pressed:', e.key);
+        // التحكم بالكيبورد - نسخة محسنة
+        function handleKeyPress(e) {
+            console.log('🎮 Key pressed:', e.key, 'keyCode:', e.keyCode);
             
-            // منع الأحداث الافتراضية لجميع المفاتيح المهمة
-            if (['ArrowUp', 'ArrowDown', 'Enter', ' ', 'Escape', 'w', 'W', 's', 'S'].includes(e.key)) {
-                e.preventDefault();
-                e.stopPropagation();
-            }
+            // منع جميع الأحداث الافتراضية
+            e.preventDefault();
+            e.stopPropagation();
+            e.stopImmediatePropagation();
             
             switch(e.key) {
                 case 'ArrowUp':
-                case 'w':
-                case 'W':
+                    console.log('⬆️ Arrow Up pressed - Moving up');
                     currentIndex = currentIndex > 0 ? currentIndex - 1 : maxIndex;
                     updateSelection();
-                    break;
+                    return false;
                     
                 case 'ArrowDown':
-                case 's':
-                case 'S':
+                    console.log('⬇️ Arrow Down pressed - Moving down');
                     currentIndex = currentIndex < maxIndex ? currentIndex + 1 : 0;
                     updateSelection();
-                    break;
+                    return false;
                     
                 case 'Enter':
-                case ' ':
+                    console.log('✅ Enter pressed - Selecting item');
                     selectItem();
-                    break;
+                    return false;
                     
                 case 'Escape':
+                    console.log('❌ Escape pressed - Closing menu');
                     sendNuiMessage({ action: 'close' });
-                    break;
+                    return false;
             }
-        }, true); // استخدام capture phase
+            
+            // التحكم بـ WASD أيضاً
+            switch(e.keyCode) {
+                case 87: // W
+                    console.log('⬆️ W pressed - Moving up');
+                    currentIndex = currentIndex > 0 ? currentIndex - 1 : maxIndex;
+                    updateSelection();
+                    return false;
+                    
+                case 83: // S
+                    console.log('⬇️ S pressed - Moving down');
+                    currentIndex = currentIndex < maxIndex ? currentIndex + 1 : 0;
+                    updateSelection();
+                    return false;
+            }
+            
+            return false;
+        }
+
+        // إضافة مستمعات الأحداث بطرق متعددة
+        document.addEventListener('keydown', handleKeyPress, true);
+        document.addEventListener('keypress', handleKeyPress, true);
+        window.addEventListener('keydown', handleKeyPress, true);
+
+        // معالجة الأحداث مع focus قوي
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('🚀 DOM loaded - Setting up menu');
+            
+            // جعل الصفحة قابلة للـ focus
+            document.body.setAttribute('tabindex', '0');
+            document.body.style.outline = 'none';
+            document.body.focus();
+            
+            // تحديث الاختيار الأولي
+            updateSelection();
+            
+            console.log('🌟 Aura Menu initialized with focus');
+            console.log('🎮 Use Arrow Keys or WASD to navigate, Enter to select');
+        });
+
+        // التأكد من الـ focus
+        setInterval(() => {
+            if (document.activeElement !== document.body) {
+                document.body.focus();
+            }
+        }, 100);
 
         // أحداث الماوس
         menuItems.forEach((item, index) => {
@@ -408,14 +446,14 @@
         // استقبال الرسائل من FiveM
         window.addEventListener('message', function(event) {
             const data = event.data;
-            console.log('Received message:', data);
+            console.log('📨 Received message:', data);
             
             if (data.type === 'showMenu') {
                 menuContainer.style.display = 'block';
                 menuContainer.classList.remove('menu-hidden');
                 document.body.focus();
                 updateSelection();
-                console.log('✅ Menu shown');
+                console.log('✅ Menu shown and focused');
             } else if (data.type === 'hideMenu') {
                 menuContainer.classList.add('menu-hidden');
                 console.log('✅ Menu hidden');
@@ -427,8 +465,8 @@
 
         // رسالة الترحيب
         console.log('========================================');
-        console.log('🌟 AURA MENU - Enhanced Version');
-        console.log('⌨️ Controls: Arrow Keys, WASD, Enter, ESC');
+        console.log('🌟 AURA MENU - Enhanced Version v2.1');
+        console.log('⌨️ Controls: Arrow Keys ↑↓, WASD, Enter, ESC');
         console.log('🖱️ Mouse: Hover & Click supported');
         console.log('✅ Ready for FiveM integration');
         console.log('========================================');
