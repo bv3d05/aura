@@ -1,332 +1,139 @@
+-- Local HTML Menu
+print("Loading Local HTML Menu...")
+
+local menuVisible = false
+local currentIndex = 4
+
+-- HTML مدمج في الكود
+local htmlContent = [[
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aura Menu</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        html, body {
-            background: transparent !important;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            overflow: hidden;
-            height: 100vh;
-            width: 100vw;
-            color: white;
-            outline: none !important;
-        }
-        
-        body {
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            padding-left: 100px;
-        }
-        
-        .menu-container {
-            width: 450px;
-            min-height: 700px;
-            background: rgba(15, 20, 25, 0.95);
-            border-radius: 20px;
-            border: 3px solid rgba(100, 255, 180, 0.8);
-            box-shadow: 0 0 50px rgba(100, 255, 180, 0.5);
-            overflow: hidden;
-            animation: slideIn 0.6s ease;
-            display: none;
-            backdrop-filter: blur(15px);
-        }
-        
-        .menu-container.show {
-            display: block;
-        }
-        
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateX(-50px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-        
-        .menu-header {
-            background: linear-gradient(135deg, rgba(100, 255, 180, 0.95), rgba(80, 200, 150, 0.95));
-            padding: 35px 30px;
-            text-align: center;
-        }
-        
-        .menu-title {
-            font-size: 48px;
-            font-weight: 900;
-            letter-spacing: 10px;
-            text-shadow: 4px 4px 10px rgba(0, 0, 0, 0.8);
-            color: #ffffff;
-            margin-bottom: 10px;
-        }
-        
-        .menu-subtitle {
-            font-size: 18px;
-            opacity: 0.9;
-            color: #e8f5e8;
-            letter-spacing: 4px;
-            font-weight: 500;
-        }
-        
-        .menu-items {
-            padding: 0;
-        }
-        
-        .menu-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 25px 35px;
-            border-bottom: 1px solid rgba(40, 50, 60, 0.7);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            user-select: none;
-            min-height: 70px;
-        }
-        
-        .menu-item:last-child {
-            border-bottom: none;
-        }
-        
-        .menu-item.selected {
-            background: linear-gradient(90deg, rgba(100, 255, 180, 0.3), rgba(100, 255, 180, 0.1));
-            border-left: 6px solid #64ffb4;
-            padding-left: 29px;
-            transform: translateX(10px);
-            box-shadow: inset 0 0 30px rgba(100, 255, 180, 0.2);
-        }
-        
-        .menu-item .icon {
-            width: 35px;
-            height: 35px;
-            margin-right: 25px;
-            font-size: 28px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-        }
-        
-        .menu-item.selected .icon {
-            transform: scale(1.3);
-        }
-        
-        .menu-item .text {
-            flex: 1;
-            font-size: 22px;
-            font-weight: 500;
-            color: #e5e5e5;
-            transition: all 0.3s ease;
-        }
-        
-        .menu-item.selected .text {
-            color: #ffffff;
-            font-weight: 600;
-        }
-        
-        .menu-item .arrow {
-            font-size: 26px;
-            color: rgba(100, 255, 180, 0.75);
-            transition: all 0.3s ease;
-            font-weight: bold;
-        }
-        
-        .menu-item.selected .arrow {
-            color: #64ffb4;
-            transform: translateX(8px) scale(1.4);
-        }
-        
-        .menu-footer {
-            background: rgba(8, 12, 18, 0.95);
-            padding: 20px 35px;
-            font-size: 14px;
-            color: #999;
-            border-top: 1px solid rgba(40, 50, 60, 0.8);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .menu-footer .version {
-            color: #64ffb4;
-            font-weight: bold;
-        }
-        
-        .menu-footer .counter {
-            color: #64ffb4;
-            font-weight: bold;
-            font-size: 16px;
-        }
-        
-        .menu-item.clicked {
-            animation: clickEffect 0.5s ease;
-        }
-        
-        @keyframes clickEffect {
-            0% { 
-                transform: translateX(10px) scale(1); 
-                background: linear-gradient(90deg, rgba(100, 255, 180, 0.3), rgba(100, 255, 180, 0.1)); 
-            }
-            50% { 
-                transform: translateX(20px) scale(1.05); 
-                background: rgba(100, 255, 180, 0.6); 
-            }
-            100% { 
-                transform: translateX(10px) scale(1); 
-                background: linear-gradient(90deg, rgba(100, 255, 180, 0.3), rgba(100, 255, 180, 0.1)); 
-            }
-        }
-        
-        .menu-item.selected::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 6px;
-            background: linear-gradient(180deg, #64ffb4, #50c878);
-            border-radius: 0 5px 5px 0;
-        }
+        body { background: transparent; margin: 0; padding: 50px; font-family: Arial; color: white; }
+        .menu { width: 300px; background: rgba(0,0,0,0.8); border: 2px solid #64ffb4; border-radius: 10px; padding: 20px; }
+        .title { font-size: 24px; text-align: center; margin-bottom: 20px; color: #64ffb4; }
+        .item { padding: 10px; margin: 5px 0; border-radius: 5px; transition: all 0.3s; }
+        .item.selected { background: rgba(100,255,180,0.3); transform: translateX(10px); }
+        .item .icon { display: inline-block; width: 30px; }
+        .item .text { margin-left: 10px; }
     </style>
 </head>
 <body>
-    <div class="menu-container" id="menuContainer">
-        <div class="menu-header">
-            <div class="menu-title">AURA</div>
-            <div class="menu-subtitle">MENU SYSTEM</div>
-        </div>
-        <div class="menu-items">
-            <div class="menu-item" data-index="0">
-                <div class="icon">👤</div>
-                <div class="text">Self</div>
-                <div class="arrow">»</div>
-            </div>
-            <div class="menu-item" data-index="1">
-                <div class="icon">🌐</div>
-                <div class="text">Online</div>
-                <div class="arrow">»</div>
-            </div>
-            <div class="menu-item" data-index="2">
-                <div class="icon">⚔️</div>
-                <div class="text">Combat/Weapons</div>
-                <div class="arrow">»</div>
-            </div>
-            <div class="menu-item" data-index="3">
-                <div class="icon">👁️</div>
-                <div class="text">Visual</div>
-                <div class="arrow">»</div>
-            </div>
-            <div class="menu-item selected" data-index="4">
-                <div class="icon">🚗</div>
-                <div class="text">Vehicle</div>
-                <div class="arrow">»</div>
-            </div>
-            <div class="menu-item" data-index="5">
-                <div class="icon">📂</div>
-                <div class="text">Miscellaneous</div>
-                <div class="arrow">»</div>
-            </div>
-            <div class="menu-item" data-index="6">
-                <div class="icon">💥</div>
-                <div class="text">Destructive</div>
-                <div class="arrow">»</div>
-            </div>
-            <div class="menu-item" data-index="7">
-                <div class="icon">⚡</div>
-                <div class="text">Triggers</div>
-                <div class="arrow">»</div>
-            </div>
-            <div class="menu-item" data-index="8">
-                <div class="icon">⚙️</div>
-                <div class="text">Settings</div>
-                <div class="arrow">»</div>
-            </div>
-        </div>
-        <div class="menu-footer">
-            <span>Version: <span class="version">v7.0</span> | Aura System</span>
-            <span class="counter" id="counter">5/9</span>
-        </div>
+    <div class="menu" id="menu" style="display:none;">
+        <div class="title">AURA MENU</div>
+        <div class="item" data-index="0"><span class="icon">👤</span><span class="text">Self</span></div>
+        <div class="item" data-index="1"><span class="icon">🌐</span><span class="text">Online</span></div>
+        <div class="item" data-index="2"><span class="icon">⚔️</span><span class="text">Combat</span></div>
+        <div class="item" data-index="3"><span class="icon">👁️</span><span class="text">Visual</span></div>
+        <div class="item selected" data-index="4"><span class="icon">🚗</span><span class="text">Vehicle</span></div>
+        <div class="item" data-index="5"><span class="icon">📂</span><span class="text">Misc</span></div>
+        <div class="item" data-index="6"><span class="icon">💥</span><span class="text">Destructive</span></div>
+        <div class="item" data-index="7"><span class="icon">⚡</span><span class="text">Triggers</span></div>
+        <div class="item" data-index="8"><span class="icon">⚙️</span><span class="text">Settings</span></div>
     </div>
-
     <script>
         let currentIndex = 4;
-        const menuItems = document.querySelectorAll('.menu-item');
-        const menuContainer = document.getElementById('menuContainer');
-        const counter = document.getElementById('counter');
-
+        const items = document.querySelectorAll('.item');
+        const menu = document.getElementById('menu');
+        
         function updateSelection(index) {
-            if (index !== undefined) {
-                currentIndex = index;
-            }
-            
-            console.log('🔄 Updating selection to:', currentIndex);
-            
-            menuItems.forEach((item, i) => {
+            items.forEach((item, i) => {
                 item.classList.remove('selected');
-                if (i === currentIndex) {
-                    item.classList.add('selected');
-                }
+                if (i === index) item.classList.add('selected');
             });
-            
-            counter.textContent = `${currentIndex + 1}/9`;
-            
-            // التمرير السلس
-            if (menuItems[currentIndex]) {
-                menuItems[currentIndex].scrollIntoView({ 
-                    behavior: 'smooth', 
-                    block: 'center' 
-                });
-            }
         }
-
-        function selectEffect(index) {
-            if (index !== undefined) {
-                currentIndex = index;
-            }
-            
-            const selectedItem = menuItems[currentIndex];
-            if (selectedItem) {
-                selectedItem.classList.add('clicked');
-                setTimeout(() => selectedItem.classList.remove('clicked'), 500);
-                console.log('🎯 Select effect applied to:', currentIndex);
-            }
-        }
-
-        // استقبال الرسائل من Lua فقط
+        
         window.addEventListener('message', function(event) {
             const data = event.data;
-            console.log('📨 Received from Lua:', data);
-            
-            if (data.type === 'showMenu') {
-                menuContainer.classList.add('show');
-                updateSelection(data.currentIndex || 4);
-                console.log('✅ Menu shown');
-            } else if (data.type === 'hideMenu') {
-                menuContainer.classList.remove('show');
-                console.log('✅ Menu hidden');
-            } else if (data.type === 'updateSelection') {
-                updateSelection(data.currentIndex);
-            } else if (data.type === 'selectEffect') {
-                selectEffect(data.index);
+            if (data.type === 'show') {
+                menu.style.display = 'block';
+                updateSelection(data.index || 4);
+            } else if (data.type === 'hide') {
+                menu.style.display = 'none';
+            } else if (data.type === 'update') {
+                updateSelection(data.index);
             }
         });
-
-        document.addEventListener('DOMContentLoaded', function() {
-            updateSelection();
-            console.log('🌟 Aura Menu HTML ready - Control via Lua');
-        });
-
-        console.log('========================================');
-        console.log('🌟 AURA MENU HTML v7.1 - VISUAL ONLY');
-        console.log('🎮 Control handled by Lua script');
-        console.log('⌨️ No keyboard events in HTML');
-        console.log('========================================');
     </script>
 </body>
 </html>
+]]
+
+-- إنشاء DUI محلي
+local menuDUI = nil
+local duiHandle = nil
+local txd = nil
+local texture = nil
+
+Citizen.CreateThread(function()
+    -- إنشاء HTML محلي
+    menuDUI = CreateDui("data:text/html;charset=utf-8," .. htmlContent, 400, 600)
+    
+    if menuDUI then
+        Citizen.Wait(2000)
+        duiHandle = GetDuiHandle(menuDUI)
+        
+        if duiHandle then
+            txd = CreateRuntimeTxd('local_menu')
+            texture = CreateRuntimeTextureFromDuiHandle(txd, 'menu_tex', duiHandle)
+            
+            if texture then
+                print("✅ Local HTML menu ready - Press F6")
+            end
+        end
+    end
+end)
+
+-- التحكم
+function OpenLocalMenu()
+    if not texture then return end
+    if menuVisible then return end
+    
+    SendDuiMessage(menuDUI, json.encode({type = "show", index = currentIndex}))
+    menuVisible = true
+    print("✅ Local menu opened")
+end
+
+function CloseLocalMenu()
+    if not menuVisible then return end
+    SendDuiMessage(menuDUI, json.encode({type = "hide"}))
+    menuVisible = false
+    print("✅ Local menu closed")
+end
+
+-- الرسم والتحكم
+Citizen.CreateThread(function()
+    while true do
+        Citizen.Wait(0)
+        
+        if menuVisible and texture then
+            DrawSprite('local_menu', 'menu_tex', 0.2, 0.5, 0.25, 0.5, 0.0, 255, 255, 255, 255)
+        end
+        
+        if menuVisible then
+            DisableAllControlActions(0)
+            EnableControlAction(0, 245, true)
+            
+            if IsControlJustPressed(0, 172) then -- Up
+                currentIndex = currentIndex > 0 and currentIndex - 1 or 8
+                SendDuiMessage(menuDUI, json.encode({type = "update", index = currentIndex}))
+            elseif IsControlJustPressed(0, 173) then -- Down
+                currentIndex = currentIndex < 8 and currentIndex + 1 or 0
+                SendDuiMessage(menuDUI, json.encode({type = "update", index = currentIndex}))
+            elseif IsControlJustPressed(0, 176) then -- Enter
+                local names = {"Self", "Online", "Combat", "Visual", "Vehicle", "Misc", "Destructive", "Triggers", "Settings"}
+                print("Selected: " .. names[currentIndex + 1])
+                CloseLocalMenu()
+            elseif IsControlJustPressed(0, 322) then -- ESC
+                CloseLocalMenu()
+            end
+        end
+        
+        if IsControlJustPressed(0, 167) then -- F6
+            if menuVisible then CloseLocalMenu() else OpenLocalMenu() end
+        end
+    end
+end)
+
+print("🌟 Local HTML Menu Loaded")
